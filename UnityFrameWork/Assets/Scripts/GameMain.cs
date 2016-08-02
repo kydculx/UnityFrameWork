@@ -3,7 +3,6 @@ using System.Collections;
 
 public class GameMain : MonoBehaviour
 {
-
     private FWTask m_kTask;
 
 	void Start ()
@@ -15,8 +14,6 @@ public class GameMain : MonoBehaviour
     {
 	
 	}
-
-
 
     IEnumerator writeLog(int totalTimes)
     {
@@ -56,19 +53,19 @@ public class GameMain : MonoBehaviour
         Debug.Log("task done. was it killed? " + bFlag);
     }
 
-    void OnGUI()
+    void TaskTestButton()
     {
         var buttonHeight = 60;
         if (GUI.Button(new Rect(5, 5, 200, buttonHeight), "Make and Start 5 iteration task"))
         {
             FWTask a_kTask = FWTaskManager.Instance.Create(writeLog(5));
-            a_kTask.Finished += TaskComplete;// (wasKilled) => {Debug.Log("task done. was it killed? "+wasKilled); };
+            a_kTask.Finished += TaskComplete;
         }
 
         if (GUI.Button(new Rect(5, 100, 200, buttonHeight), "Make Paused"))
         {
             m_kTask = FWTaskManager.Instance.Create(endlessLog(), false);
-            m_kTask.Finished += TaskComplete;//(wasKilled) => {Debug.Log("endless task done. was it killed? " +wasKilled); };
+            m_kTask.Finished += TaskComplete;
         }
 
         if (GUI.Button(new Rect(5, 100 + buttonHeight, 200, buttonHeight), "Start Made Task"))
@@ -108,6 +105,16 @@ public class GameMain : MonoBehaviour
         if (GUI.Button(new Rect(xPos, 5 + buttonHeight * 2, 200, buttonHeight), "All UnPause"))
         {
             FWTaskManager.Instance.AllUnPause();
+        }
+    }
+
+    void OnGUI()
+    {
+        var buttonHeight = 60;
+
+        if (GUI.Button(new Rect(5, 5, 200, buttonHeight), "Go GamePlay"))
+        {
+            FWSceneManager.Instance.SetScene(FWSceneList.GAME_PLAY, true);
         }
     }
 }
