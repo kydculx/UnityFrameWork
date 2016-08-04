@@ -114,7 +114,7 @@ public class GameMain : MonoBehaviour
 
         if (GUI.Button(new Rect(5, 5, 200, buttonHeight), "Go GamePlay"))
         {
-            FWSceneManager.Instance.SetScene(FWSceneList.GAME_PLAY, true);
+            FWSceneManager.Instance.SetScene(FWSceneList.GAME_PLAY);
         }
     }
 }

@@ -18,7 +18,6 @@ public class FWSceneManager : FWSingleton<FWSceneManager>
     float m_fProgress;
     bool m_bLoading = false;
 
-
     public void SetScene(string strSceneName, bool bHeavy = false)
     {
         StopAllCoroutines();
