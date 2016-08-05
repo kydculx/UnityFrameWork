@@ -9,21 +9,22 @@ public class FWApplicationMain : FWSingleton<FWApplicationMain>
     {
         if (m_bApplicationRun == false)
         {
-            m_bApplicationRun = true;
             Debug.Log("FWApplicationMain Awake");
-
-            FWHelper.SetFrame(1/60);
-            FWHelper.SetScreenOrientation(ScreenOrientation.LandscapeLeft);
+            m_bApplicationRun = true;
+            ApplicationSetting();
         }
-    }
-
-    void Start()
-    {
-        Debug.Log("FWApplicationMain Start");
     }
 
     void Destroy()
     {
+        m_bApplicationRun = false;
         Debug.Log("FWApplicationMain Destroy");
+    }
+
+    void ApplicationSetting()
+    {
+        FWSetting.SetFrameRate(60);
+        FWSetting.SetNeverSleep(true);
+        FWSetting.SetScreenOrientation(ScreenOrientation.LandscapeLeft);
     }
 }

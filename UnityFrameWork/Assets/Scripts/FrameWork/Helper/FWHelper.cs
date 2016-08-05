@@ -12,14 +12,4 @@ public class FWHelper : MonoBehaviour
     {
         return ((fCurrnetValue) / (fMaxValue) * 100.0f);
     }
-
-    public static void SetFrame(int nFrame)
-    {
-        Application.targetFrameRate = nFrame;
-    }
-
-    public static void SetScreenOrientation(ScreenOrientation orientation)
-    {
-        Screen.orientation = orientation;
-    }
 }
