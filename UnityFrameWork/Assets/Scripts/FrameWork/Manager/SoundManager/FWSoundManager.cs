@@ -14,12 +14,19 @@ class FWSoundData
         m_AudioSource = null;
         m_strFileName = null;
     }
+
+    ~FWSoundData()
+    {
+        m_AudioClip = null;
+        m_AudioSource = null;
+        m_strFileName = null;
+    }
 }
 
 public class FWSoundManager : FWSingleton<FWSoundManager>
 {
-    FWSoundData m_kEFFData;
-    FWSoundData m_kBGMData;
+    FWSoundData m_kEFFData = null;
+    FWSoundData m_kBGMData = null;
 
     bool m_bEFFOnOff;
     bool m_bBGMOnOff;
@@ -50,21 +57,11 @@ public class FWSoundManager : FWSingleton<FWSoundManager>
     public void SetEFFOnOff(bool bOnOff)
     {
         m_bEFFOnOff = bOnOff;
-
-        if (m_bEFFOnOff)
-        {
-
-        }
     }
 
     public void SetBGMOnOff(bool bOnOff)
     {
         m_bBGMOnOff = bOnOff;
-
-        if (m_bBGMOnOff)
-        {
-
-        }
     }
 
     bool GetEFFOnOFF()
@@ -128,25 +125,12 @@ public class FWSoundManager : FWSingleton<FWSoundManager>
         if (GetEFFOnOFF() == false)
             return;
 
+        AudioClip a_kAudioClip = GetEFFClip(strFileName);
         AudioSource a_kAudioSource = GetEFFSource(strFileName);
         a_kAudioSource.bypassEffects = true;
         a_kAudioSource.loop = bLoop;
-        a_kAudioSource.Play();
 
-        a_kAudioSource.PlayOneShot( GetEFFClip(strFileName) );
-    }
-
-    public void PlayOneShot( string strFileName, bool bLoop = false )
-    {
-        if( GetEFFOnOFF() == false )
-            return;
-
-        AudioClip   a_kAudioClip        = GetEFFClip( strFileName );
-        AudioSource a_kAudioSource      = GetEFFSource( strFileName );
-        a_kAudioSource.bypassEffects    = true;
-        a_kAudioSource.loop             = bLoop;
-        
-        a_kAudioSource.PlayOneShot( a_kAudioClip );
+        a_kAudioSource.PlayOneShot(a_kAudioClip);
     }
 
     public void PauseEFF()
@@ -177,7 +161,6 @@ public class FWSoundManager : FWSingleton<FWSoundManager>
             return;
 
         AudioSource a_kAudioSource = GetBGMSource(strFileName);
-        Debug.Assert(a_kAudioSource);
         
         a_kAudioSource.bypassEffects = true;
         a_kAudioSource.loop = bLoop;

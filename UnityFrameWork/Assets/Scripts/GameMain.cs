@@ -1,18 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+
+
+public class EventHandlerTest : EventArgs
+{
+    public int age {get; set; }
+    public string name {get; set; }
+
+    public EventHandlerTest(int age, string name)
+    {
+        this.age = age;
+        this.name = name;
+    }
+
+    public void Click(object sender, EventArgs args, EventHandlerTest data)
+    {
+        Debug.Log("Click = "+data.age +"/"+data.name );
+    }
+}
 
 public class GameMain : MonoBehaviour
 {
     private FWTask m_kTask;
 
-	void Start ()
+    EventHandler m_EventHandler;
+
+    void Start ()
     {
-	
 	}
 	
 	void Update ()
     {
-	
 	}
 
     IEnumerator writeLog(int totalTimes)
@@ -53,7 +72,7 @@ public class GameMain : MonoBehaviour
         Debug.Log("task done. was it killed? " + bFlag);
     }
 
-    void TaskTestButton()
+    void TestTask()
     {
         var buttonHeight = 60;
         if (GUI.Button(new Rect(5, 5, 200, buttonHeight), "Make and Start 5 iteration task"))
@@ -108,7 +127,7 @@ public class GameMain : MonoBehaviour
         }
     }
 
-    void OnGUI()
+    void testScene()
     {
         var buttonHeight = 60;
 
@@ -116,5 +135,46 @@ public class GameMain : MonoBehaviour
         {
             FWSceneManager.Instance.SetScene(FWSceneList.GAME_PLAY);
         }
+    }
+
+    void TestEventHandler()
+    {
+        var buttonHeight = 60;
+
+        if (GUI.Button(new Rect(5, 5, 200, buttonHeight), "EventHandler Regeister"))
+        {
+
+            EventHandlerTest args = new EventHandlerTest(UnityEngine.Random.Range(1, 100), "kydculx");
+
+            m_EventHandler = new EventHandler((object sender, EventArgs e) => args.Click(sender, e, args));
+
+            FWEventHandlerManager.Instance.Add("test", m_EventHandler);
+        }
+
+        if (GUI.Button(new Rect(5, 5 + buttonHeight, 200, buttonHeight), "EventHandler Execute"))
+        {
+            FWEventHandlerManager.Instance.Excute("test");
+        }
+
+        if (GUI.Button(new Rect(5, 5 + buttonHeight * 2, 200, buttonHeight), "EventHandler Remove target"))
+        {
+            FWEventHandlerManager.Instance.Remove("test", m_EventHandler);
+        }
+
+        if (GUI.Button(new Rect(5, 5 + buttonHeight * 3, 200, buttonHeight), "EventHandler Remove key"))
+        {
+            FWEventHandlerManager.Instance.Remove("test");
+        }
+
+        if (GUI.Button(new Rect(5, 5 + buttonHeight * 4, 200, buttonHeight), "EventHandler Clean"))
+        {
+
+            FWEventHandlerManager.Instance.Clean();
+        }
+    }
+
+    void OnGUI()
+    {
+        TestEventHandler();
     }
 }

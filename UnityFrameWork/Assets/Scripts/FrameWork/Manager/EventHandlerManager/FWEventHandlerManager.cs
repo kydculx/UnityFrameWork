@@ -4,53 +4,53 @@ using System.Collections.Generic;
 
 public class FWEventHandlerManager : FWSingleton<FWEventHandlerManager>
 {
-    Dictionary<string, List<EventHandler>> m_listEventDictionary = new Dictionary<string, List<EventHandler>>();
+    private Dictionary<string, List<EventHandler>> m_listEvents = new Dictionary<string, List<EventHandler>>();
 
     void Destroy()
     {
-        m_listEventDictionary.Clear();
+        m_listEvents.Clear();
     }
 
-    public void Register(string key, EventHandler eventHandler)
+    public void Add(string strKey, EventHandler eventHandler)
     {
-        if (!m_listEventDictionary.ContainsKey(key))
+        if (!m_listEvents.ContainsKey(strKey))
         {
             List<EventHandler> evtList = new List<EventHandler>();
-            m_listEventDictionary.Add(key, evtList);
+            m_listEvents.Add(strKey, evtList);
         }
 
-        m_listEventDictionary[key].Add(eventHandler);
+        m_listEvents[strKey].Add(eventHandler);
     }
 
-    public void UnRegister(string key, EventHandler eventHandler)
+    public void Remove(string strKey, EventHandler eventHandler)
     {
-        if (!m_listEventDictionary.ContainsKey(key)) return;
+        if (!m_listEvents.ContainsKey(strKey)) return;
 
-        m_listEventDictionary[key].Remove(eventHandler);
+        m_listEvents[strKey].Remove(eventHandler);
     }
 
-    public void Clean(string key)
+    public void Remove(string strKey)
     {
-        if (!m_listEventDictionary.ContainsKey(key)) return;
+        if (!m_listEvents.ContainsKey(strKey)) return;
 
-        m_listEventDictionary[key].Clear();
-        m_listEventDictionary.Remove(key);
+        m_listEvents[strKey].Clear();
+        m_listEvents.Remove(strKey);
     }
 
-    public void Excute(string key)
+    public void Excute(string strKey)
     {
-        if (!m_listEventDictionary.ContainsKey(key)) return;
+        if (!m_listEvents.ContainsKey(strKey)) return;
 
         EventHandler handler = null;
-        for (int i = 0; i < m_listEventDictionary[key].Count; ++i)
+        for (int i = 0; i < m_listEvents[strKey].Count; ++i)
         {
-            handler = m_listEventDictionary[key][i];
+            handler = m_listEvents[strKey][i];
             handler(this, EventArgs.Empty);
         }
     }
 
     public void Clean()
     {
-        m_listEventDictionary.Clear();
+        m_listEvents.Clear();
     }
 }
