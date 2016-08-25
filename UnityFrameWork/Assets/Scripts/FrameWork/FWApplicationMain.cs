@@ -3,7 +3,7 @@ using System.Collections;
 
 public class FWApplicationMain : FWSingleton<FWApplicationMain>
 {
-    private static bool             m_bApplicationRun       = false;
+    private static bool             m_sbApplicationRun      = false;
 
     public FWSceneManager           m_kSceneManager         = null;
     public FWTouchEventManager      m_kTouchEventManager    = null;
@@ -12,11 +12,11 @@ public class FWApplicationMain : FWSingleton<FWApplicationMain>
     public FWSoundManager           m_kSoundManager         = null;
 
     void Awake()
-    { 
-        if (m_bApplicationRun == false)
+    {
+        if (m_sbApplicationRun == false)
         {
             Debug.Log("FWApplicationMain Awake");
-            m_bApplicationRun = true;
+            m_sbApplicationRun = true;
             ApplicationSetting();
             Init();
         }
@@ -30,12 +30,12 @@ public class FWApplicationMain : FWSingleton<FWApplicationMain>
         m_kTaskManager          = FWTaskManager.Instance;
         m_kSoundManager         = FWSoundManager.Instance;
 
-        m_kSoundManager.PlayBGM("bgm_battle");
+        FWObjectPoolManager.Instance.Create("HP", "Prefabs/Player_HP", 10);
     }
 
     void Destroy()
     {
-        m_bApplicationRun = false;
+        m_sbApplicationRun = false;
         Debug.Log("FWApplicationMain Destroy");
     }
 

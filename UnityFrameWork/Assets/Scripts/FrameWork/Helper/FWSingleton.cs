@@ -4,13 +4,13 @@ public class FWSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T m_sInstance;
     private static object m_sLock = new object();
-    private static bool m_bApplicationIsQuitting = false;
+    private static bool m_sbApplicationIsQuitting = false;
 
     public static T Instance
     {
         get
         {
-            if (m_bApplicationIsQuitting)
+            if (m_sbApplicationIsQuitting)
             {
                 Debug.LogWarning("[Singleton] Instance '" + typeof(T) +
                     "' already destroyed on application quit." +
@@ -58,6 +58,6 @@ public class FWSingleton<T> : MonoBehaviour where T : MonoBehaviour
 
     public void OnDestroy()
     {
-        m_bApplicationIsQuitting = true;
+        m_sbApplicationIsQuitting = true;
     }
 }

@@ -37,7 +37,7 @@ public class FWEventHandlerManager : FWSingleton<FWEventHandlerManager>
         m_listEvents.Remove(strKey);
     }
 
-    public void Excute(string strKey)
+    public void Execute(string strKey)
     {
         if (!m_listEvents.ContainsKey(strKey)) return;
 

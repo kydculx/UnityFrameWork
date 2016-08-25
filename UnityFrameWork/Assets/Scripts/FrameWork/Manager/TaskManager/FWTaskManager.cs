@@ -80,14 +80,14 @@ public class FWTaskManager : FWSingleton<FWTaskManager>
     {
         if (m_Tasks.Contains(kTask))
         {
-            m_Tasks.Remove(kTask);
-            kTask.Stop();
-
             GameObject a_kGameObject = FWFinder.Find(Instance.name);
             Transform transform = FWFinder.FindChild(a_kGameObject, kTask.TaskName);
 
             if (transform)
                 Destroy(transform.gameObject);
+
+            kTask.Stop();
+            m_Tasks.Remove(kTask);
         }
     }
 

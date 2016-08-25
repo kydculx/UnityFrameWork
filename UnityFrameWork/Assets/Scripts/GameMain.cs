@@ -26,8 +26,15 @@ public class GameMain : MonoBehaviour
 
     EventHandler m_EventHandler;
 
+    GameObject[] m_kObject;
+
+    int m_nObjectPoolCount = 10;
+    int m_nObjectPoolIndex = 0;
+
     void Start ()
     {
+        m_kObject = new GameObject[m_nObjectPoolCount];
+        m_nObjectPoolIndex = 0;
 	}
 	
 	void Update ()
@@ -153,7 +160,7 @@ public class GameMain : MonoBehaviour
 
         if (GUI.Button(new Rect(5, 5 + buttonHeight, 200, buttonHeight), "EventHandler Execute"))
         {
-            FWEventHandlerManager.Instance.Excute("test");
+            FWEventHandlerManager.Instance.Execute("test");
         }
 
         if (GUI.Button(new Rect(5, 5 + buttonHeight * 2, 200, buttonHeight), "EventHandler Remove target"))
@@ -173,8 +180,37 @@ public class GameMain : MonoBehaviour
         }
     }
 
+    void TestObjectPool()
+    {
+        var buttonHeight = 60;
+
+        if (GUI.Button(new Rect(5, 5, 200, buttonHeight), "Object Pop"))
+        {
+            if (m_nObjectPoolIndex < m_nObjectPoolCount)
+            {
+                m_kObject[m_nObjectPoolIndex] = FWObjectPoolManager.Instance.Pop("HP");
+
+                m_kObject[m_nObjectPoolIndex].transform.parent = gameObject.transform;
+                m_nObjectPoolIndex++;
+            }
+        }
+
+        if (GUI.Button(new Rect(5, 5 + buttonHeight * 1, 200, buttonHeight), "Object Push"))
+        {
+            FWObjectPoolManager.Instance.Push("HP", m_kObject[m_nObjectPoolIndex - 1]);
+            m_nObjectPoolIndex--;
+        }
+
+        if (GUI.Button(new Rect(5, 5 + buttonHeight * 2, 200, buttonHeight), "Object Remove"))
+        {
+            FWObjectPoolManager.Instance.Remove("HP");
+            m_nObjectPoolIndex = 0;
+        }
+
+    }
+
     void OnGUI()
     {
-        TestEventHandler();
+        TestTask();
     }
 }
